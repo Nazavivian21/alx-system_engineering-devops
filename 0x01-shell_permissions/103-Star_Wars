@@ -1,2 +1,2 @@
-#!/bin/bett
+#!/bin/bash
 telnet towel.blinkenlights.nl
