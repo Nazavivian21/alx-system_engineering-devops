@@ -3,8 +3,8 @@
 count=1
 while [ $count -le 9 ]; do
     echo "Best School"
-    ((count++))
-    if [ "$count" -gt 9 ]; then
+	((count ++))
+    if [ "$count" -eq 9 ]; then
         echo "Hi"
     fi
 done
