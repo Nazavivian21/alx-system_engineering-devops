@@ -1,0 +1,1 @@
+This is a directory for the installation of firewall with specified configuration settings.
