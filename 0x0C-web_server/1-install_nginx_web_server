@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Install nginx web server
+
+# Print a message indicating the start of the update and installation process
+echo -e "Updating and Installing Nginx. \n"
+
+# Update the package list quietly and automatically answer "yes" to any prompts. Continue to the next command only if this succeeds
+sudo apt-get update -y -qq && \
+
+# Install Nginx quietly and automatically answer "yes" to any prompts
+sudo apt-get install nginx -y
+
+# Start the Nginx service without using systemctl
+sudo service nginx start
+
+# Allow HTTP traffic through the firewall for Nginx
+sudo ufw allow 'Nginx HTTP'
+
+# Change ownership of the /var/www/html directory to the current user
+sudo chown -R "$USER":"$USER" /var/www/html
+
+# Set permissions for the /var/www directory to read, write, and execute for the owner, and read and execute for others
+sudo chmod -R 755 /var/www
+
+# Make a backup copy of the default Nginx index page
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Replace the content of the default Nginx index page with "Hello World!" using dd for precise control
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+# Restart the Nginx service to apply changes
+sudo service nginx restart
+
+# Print a completion message
+echo -e "\n Completed"
