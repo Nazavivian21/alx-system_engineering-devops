@@ -31,11 +31,14 @@ cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.b
 # Replace the content of the default Nginx index page with "Hello World!" using dd for precise control
 echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
+# Add redirection for /redirect_me
 sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://x.com/Nazaukwe permanent;' /etc/nginx/sites-available/default
 
+# Add custom 404 error page configuration
 sudo sed -i '/listen 80 default_server;/a error_page 404 /404.html;' /etc/nginx/sites-available/default
 
-sudo sed -i '/listen 80 default_server;/a  add_header X-Served-By $hostname;" /etc/nginx/sites-available/default
+# Add custom header with hostname
+sudo sed -i '/listen 80 default_server;/a  add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
 
 # Restart the Nginx service to apply changes
 sudo service nginx restart
