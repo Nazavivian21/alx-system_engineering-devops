@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Install HAProxy load balancer
+
+# Print a message indicating the start of the update and installation process
+echo -e "Updating and Installing HAProxy. \n"
+
+# Update the package list quietly and automatically answer "yes" to any prompts. Continue to the next command only if this succeeds
+sudo apt-get update -y -qq && \
+
+# Install HAProxy quietly and automatically answer "yes" to any prompts
+sudo apt-get install haproxy -y
+
+# Start the HAProxy service without using systemctl
+sudo service haproxy start
+
+# Allow HTTP traffic through the firewall for HAProxy
+sudo ufw allow 'HAProxy HTTP'
+
+# Backup the default HAProxy configuration file
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bckp
+
+# Replace the content of the default HAProxy configuration file with a basic example
+echo -e "
+frontend nazavivianonline\n\
+    bind *:80
+    mode   http
+    default_backend app
+    
+backend http_back\n\
+    balance roundrobin\n\
+    server 205331-web-01 34.239.207.110:80 check
+    server 205331-web-02 54.162.241.217:80 check" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
+
+# Restart the HAProxy service to apply changes
+sudo service haproxy restart
+
+# Print a completion message
+echo -e "\nCompleted"
