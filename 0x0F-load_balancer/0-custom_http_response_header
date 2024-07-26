@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#shellcheck disable=SC2154
+
 # Install nginx web server
 
 # Print a message indicating the start of the update and installation process
