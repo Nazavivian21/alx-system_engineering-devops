@@ -13,21 +13,25 @@ sudo apt-get install haproxy -y
 # Start the HAProxy service without using systemctl
 sudo service haproxy start
 
-# Allow HTTP traffic through the firewall for HAProxy
-sudo ufw allow 'HAProxy HTTP'
-
 # Backup the default HAProxy configuration file
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bckp
 
 # Replace the content of the default HAProxy configuration file with a basic example
-echo -e "
-frontend nazavivianonline\n\
+echo  "
+defaults
+    mode http
+    timeout client 10s
+    timeout connect 5s
+    timeout server 10s
+    timeout http-request 10s
+
+frontend nazavivianonline.frontend
     bind *:80
     mode   http
-    default_backend app
+    default_backend nazavivianonline.backend
     
-backend http_back\n\
-    balance roundrobin\n\
+backend nazavivianonline.backend
+    balance roundrobin
     server 205331-web-01 34.239.207.110:80 check
     server 205331-web-02 54.162.241.217:80 check" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
