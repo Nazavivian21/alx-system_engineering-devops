@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """
 This module retrieves data from a REST API
 """
