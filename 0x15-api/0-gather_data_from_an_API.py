@@ -1,20 +1,18 @@
 #!/usr/bin/python3
-
 """
-This module retrieves data from a REST API
-"""
-
+This module retrieves data from a REST API"""
 if __name__ == '__main__':
+
     import requests
-    from sys import argv
+    import sys
 
     # get the user id
-    user_id = argv[1]
+    user_id = sys.argv[1]
     # users
     users_url = 'https://jsonplaceholder.typicode.com/users'
 
     # todos
-    todos_url = f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos/'
+    todos_url = f'https://jsonplaceholder.typicode.com/users/{user_id}/todos/'
 
     users_response = requests.get(users_url)
     todos_response = requests.get(todos_url)
@@ -25,7 +23,7 @@ if __name__ == '__main__':
 
     for user in users:
         # check if the id of this user matches, and store their name
-        if user['id'] == (user_id):
+        if user['id'] == int(user_id):
             # store the name
             user_name = user['name']
 
