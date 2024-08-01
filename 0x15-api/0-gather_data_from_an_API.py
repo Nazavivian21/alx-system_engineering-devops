@@ -4,15 +4,13 @@ This module retrieves data from a REST API"""
 if __name__ == '__main__':
 
     import requests
-    import sys
+    from sys import argv
 
-    # get the user id
-    user_id = sys.argv[1]
     # users
     users_url = 'https://jsonplaceholder.typicode.com/users'
 
     # todos
-    todos_url = f'https://jsonplaceholder.typicode.com/users/{user_id}/todos/'
+    todos_url = f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos/'
 
     users_response = requests.get(users_url)
     todos_response = requests.get(todos_url)
@@ -23,7 +21,7 @@ if __name__ == '__main__':
 
     for user in users:
         # check if the id of this user matches, and store their name
-        if user['id'] == int(user_id):
+        if user['id'] == int(argv[1]):
             # store the name
             user_name = user['name']
 
@@ -41,8 +39,8 @@ if __name__ == '__main__':
 
     # print message about user info
     print(
-        f'Employee {user_name} is done with tasks\
-            ({completed_count}/{total_tasks}):'
+        "Employee {} is done with tasks({}/{}):"
+        .format(user_name, completed_count, total_tasks)
     )
     # print titles
     for todo in completed_todos:
