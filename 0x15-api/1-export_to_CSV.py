@@ -2,16 +2,17 @@
 """
 This module retrieves data from a REST API and exports it to a CSV file.
 """
+import csv
+import requests
+import sys
+
 if __name__ == '__main__':
-    import requests
-    from sys import argv
-    import csv
 
     # users
     users_url = 'https://jsonplaceholder.typicode.com/users'
 
     # todos
-    todos_url = f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos/'
+    todos_url = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}/todos/'
 
     users_response = requests.get(users_url)
     todos_response = requests.get(todos_url)
@@ -22,9 +23,9 @@ if __name__ == '__main__':
 
     for user in users:
         # check if the id of this user matches, and store their name
-        if user['id'] == int(argv[1]):
+        if user['id'] == int(sys.argv[1]):
             # store the name
-            user_name = user['name']
+            user_name = user['username']
 
     todo_lists = todos_response.json()  # store all the todos for the user
     total_tasks = len(todo_lists)
@@ -49,25 +50,11 @@ if __name__ == '__main__':
         print(f"\t {todo['title']}")
 
     # Export data to CSV
-    csv_filename = f"{argv[1]}.csv"
-    with open(csv_filename, mode='w', newline='') as csvfile:
-        fieldnames = [
-            "USER_ID",
-            "USERNAME",
-            "TASK_COMPLETED_STATUS",
-            "TASK_TITLE",
-        ]
-        writer = csv.DictWriter(
-            csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL
+    with open("{}.csv".format(sys.argv[1]), mode="w", newline="") as csvfile:
+        writer = csv.writer(
+            csvfile, quoting=csv.QUOTE_ALL
         )
-
-        writer.writeheader()
         for todo in todo_lists:
             writer.writerow(
-                {
-                    "USER_ID": argv[1],
-                    "USERNAME": user_name,
-                    "TASK_COMPLETED_STATUS": todo['completed'],
-                    "TASK_TITLE": todo['title'],
-                }
+                    [sys.argv[1],  user_name, todo.get('completed'), todo.get('title')]
             )
