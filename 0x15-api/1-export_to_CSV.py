@@ -12,7 +12,9 @@ if __name__ == '__main__':
     users_url = 'https://jsonplaceholder.typicode.com/users'
 
     # todos
-    todos_url = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}/todos/'
+    todos_url = (
+        f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}/todos/'
+    )
 
     users_response = requests.get(users_url)
     todos_response = requests.get(todos_url)
@@ -51,10 +53,13 @@ if __name__ == '__main__':
 
     # Export data to CSV
     with open("{}.csv".format(sys.argv[1]), mode="w", newline="") as csvfile:
-        writer = csv.writer(
-            csvfile, quoting=csv.QUOTE_ALL
-        )
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         for todo in todo_lists:
             writer.writerow(
-                    [sys.argv[1],  user_name, todo.get('completed'), todo.get('title')]
+                [
+                    sys.argv[1],
+                    user_name,
+                    todo.get('completed'),
+                    todo.get('title'),
+                ]
             )
