@@ -24,7 +24,7 @@ if __name__ == '__main__':
         # check if the id of this user matches, and store their name
         if user['id'] == int(argv[1]):
             # store the name
-            user_name = user['name']
+            user_name = user['username']
 
     todo_lists = todos_response.json()  # store all the todos for the user
     total_tasks = len(todo_lists)
@@ -40,9 +40,8 @@ if __name__ == '__main__':
 
     # print message about user info
     print(
-        "Employee {} is done with tasks({}/{}):".format(
-            user_name, completed_count, total_tasks
-        )
+        "Employee {} is done with tasks({}/{}):"
+        .format(user_name, completed_count, total_tasks)
     )
     # print titles
     for todo in completed_todos:
@@ -54,9 +53,8 @@ if __name__ == '__main__':
             {
                 "task": todo['title'],
                 "completed": todo['completed'],
-                "username": user_name,
-            }
-            for todo in todo_lists
+                "username": user_name
+            } for todo in todo_lists
         ]
     }
 
