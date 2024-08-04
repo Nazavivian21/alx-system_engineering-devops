@@ -24,18 +24,19 @@ if __name__ == '__main__':
     # Populate the dictionary with tasks for each user
     for user in users:
         user_id = user['id']
-        user_name = user['name']
-        
+        user_name = user['username']
+
         # Filter todos for the current user
         user_todos = [
             {
                 "username": user_name,
                 "task": todo['title'],
-                "completed": todo['completed']
+                "completed": todo['completed'],
             }
-            for todo in todos if todo['userId'] == user_id
+            for todo in todos
+            if todo['userId'] == user_id
         ]
-        
+
         # Assign the list of todos to the user_id key in the dictionary
         all_user_tasks[user_id] = user_todos
 
