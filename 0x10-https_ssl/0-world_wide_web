@@ -2,11 +2,14 @@
 # print domains and subdomains
 
 print_domain_subdomains () {
-    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { PRINT "The subdomain " $1 " is a " $4 "  record and points to " $5 }'
+    dig "$1" +short | while read line; do
+        if [[ -n "$line" ]]; then
+            echo "The subdomain $2 is a A record and points to $line"
+        fi
+    done
 }
 
-if [ "$#" -eq 2 ]
-then 
+if [ "$#" -eq 2 ]; then 
     print_domain_subdomains "$2.$1" "$2"
 else
     print_domain_subdomains "www.$1" "www"
