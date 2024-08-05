@@ -4,7 +4,7 @@
 print_domain_subdomains () {
     dig "$1" +short | while read line; do
         if [[ -n "$line" ]]; then
-            echo "The subdomain $2 is an A record and points to $line"
+            echo "The subdomain $2 is a A record and points to $line"
         fi
     done
 }
