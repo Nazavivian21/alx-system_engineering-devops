@@ -1,20 +1,17 @@
 #!/usr/bin/python3
-""" Returns the number of subscribers """
+""" Queries subscribers on a given subreddit"""
 if __name__ == '__main__':
     import requests
-    
-    def number_of_subscribers(subreddit):
-        url = f"https://www.reddit.com/r/{subreddit}/about.json"
-        headers = {
-            'User-Agent': 'subreddit-subscriber-checker/0.1 by your_username'
-        }
 
-        try:
-            response = requests.get(url, headers=headers, allow_redirects=False)
-            if response.status_code == 200:
-                data = response.json()
-                return data['data']['subscribers']
-            else:
-                return 0
-        except requests.RequestException:
+    def number_of_subscribers(subreddit):
+        """Return the number of subscribers on a given subreddit"""
+        url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+        headers = {
+            "User-Agent": "Linux 0x16 api advanced:v1.0.0 (by /u/nazaVivian)"
+        }
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        if response.status_code == 404:
             return 0
+        results = response.json().get("data")
+        return results.get("subscribers:")
+    
