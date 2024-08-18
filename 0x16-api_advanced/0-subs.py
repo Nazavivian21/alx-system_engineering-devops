@@ -1,18 +1,21 @@
 #!/usr/bin/python3
-""" Queries subscribers on a given subreddit"""
+"""
+This module contains the function number_of_subscribers.
+"""
 import requests
 
+
 def number_of_subscribers(subreddit):
-    """Return the number of subscribers on a given subreddit"""
+    """Returns the number of subscribers for a given reddit"""
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {
-        "User-Agent": "Linux 0x16 api advanced:v1.0.0 (by /u/nazaVivian)"
-    }
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 404:
-        return 0
-    try:
-        results = response.json().get("data", {})
-        return results.get("subscribers", 0)
-    except ValueError:
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+        (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0"
+
+    result = requests.get(
+        url, headers={"user-agent": user_agent}, allow_redirects=False
+    )
+    if result.status_code == 200:
+        jsonresult = result.json()
+        return jsonresult["data"]["subscribers"]
+    else:
         return 0
