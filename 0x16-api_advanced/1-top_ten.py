@@ -12,7 +12,9 @@ def top_ten(subreddit):
     listed for a given subreddit.
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
-    headers = {"User-Agent": "Linux 0x16 api advanced:v1.0.0 (by /u/nazaVivian)"}
+    headers = {
+        "User-Agent": "Linux 0x16 api advanced:v1.0.0 (by /u/nazaVivian)"
+    }
     response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code == 200:
